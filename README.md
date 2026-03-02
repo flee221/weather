@@ -1,4 +1,4 @@
-Level5 - Full-stack Development in-class example.
+Level 5 - Full-stack Development in-class example.
 
 Weather app using openweathermaps API for fetching weather data.
 
