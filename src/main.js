@@ -1,6 +1,7 @@
 import { initTitleBar } from "./components/titleBar.js";
 import { searchInput } from "./components/ui_components/searchInput.js";
 import { geocoding } from "./apiRouter.js";
+import { textanimate } from "./components/ui_components/textanimate.js";
 import "./style.css";
 
 function initApp() {
@@ -34,6 +35,7 @@ function initApp() {
 
   app.appendChild(titleBar);
   app.appendChild(contentDiv);
+  app.appendChild(textanimate("Weather Alert!", 10));
 }
 
 document.addEventListener("DOMContentLoaded", () => {
