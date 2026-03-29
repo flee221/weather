@@ -1,0 +1,24 @@
+@keyframes animatedText {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.textContainer {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  background-color: aliceblue;
+}
+
+.textContainer span {
+  display: inline-block;
+  padding-left: 100%;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: xx-large;
+  color: #343b14;
+  animation: animatedText 10s linear infinite; /* default speed if not overridden by JS */
+}

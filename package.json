@@ -1,14 +1,26 @@
 {
-  "name": "client",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+  "name": "weatherapp_fullstack_module",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/flee221/weather#readme",
+  "bugs": {
+    "url": "https://github.com/flee221/weather/issues"
   },
-  "devDependencies": {
-    "vite": "^7.3.1"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flee221/weather.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && node index.js",
+    "client": "cd client && npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "concurrently": "^9.2.1"
   }
 }
