@@ -1,0 +1,6 @@
+.ascii-output {
+  font-size: 3px;
+  line-height: 3px;
+  white-space: pre;
+  overflow-x: none;
+}

@@ -47,12 +47,25 @@ app.listen(port, () => {
 
 app.get("/ascii", async (req, res) => {
   try {
-    const { url } = req.query;
-    console.log(url);
-    const ascii = await generateAscii(url);
+    const { url, width } = req.query;
+
+    const ascii = await generateAscii(url, { width: Number(width) });
     res.type("text/plain");
     res.send(ascii);
   } catch (err) {
     res.status(500).send("Error w ASCII");
+  }
+});
+
+app.get("/github", async (req, res) => {
+  try {
+    const { username } = req.query;
+
+    const response = await fetch(`https://api.github.com/users/${username}`);
+    const data = await response.json();
+
+    res.json({ data });
+  } catch (err) {
+    console.log(err);
   }
 });

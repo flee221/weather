@@ -1,7 +1,9 @@
 import { initTitleBar } from "./components/titleBar.js";
 import { searchInput } from "./components/ui_components/searchInput.js";
 import { weatherApi } from "./apiRouter.js";
+import { githubApi } from "./apiRouter.js";
 import { textanimate } from "./components/ui_components/textanimate.js";
+import { asciiConvert } from "./components/ui_components/asciiConvert.js";
 import "./style.css";
 
 function initApp() {
@@ -37,11 +39,20 @@ function initApp() {
   app.appendChild(contentDiv);
   app.appendChild(textanimate("Weather Alert!", 10));
 
-  const asciiBox = document.createElement("pre");
-  asciiBox.id = "ascii-output";
+  //const asciiBox = document.createElement("pre");
+  //asciiBox.id = "ascii-output";
 
-  app.appendChild(asciiBox);
-  asciiImage("http://localhost:3000/images/github.png");
+  //app.appendChild(asciiBox);
+  //asciiImage("http://localhost:3000/images/github.png");
+
+  githubApi("flee221").then((result) => {
+    //console.log(result.data.avatar_url);
+    const ascii = asciiConvert({
+      imageUrl: result.data.avatar_url,
+      width: 90,
+    });
+    app.appendChild(ascii.element);
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -65,13 +76,13 @@ const handleButtonClick = (event, inputElement) => {
   inputElement.value = "";
 };
 
-async function asciiImage(imageurl) {
-  const res = await fetch(
-    `http://localhost:3000/ascii?url=${encodeURIComponent(imageurl)}`,
-  );
+//async function asciiImage(imageurl) {
+//const res = await fetch(
+//`http://localhost:3000/ascii?url=${encodeURIComponent(imageurl)}`,
+//);
 
-  const text = await res.text();
+//const text = await res.text();
 
-  const asciiBox = document.getElementById("ascii-output");
-  asciiBox.textContent = text;
-}
+//const asciiBox = document.getElementById("ascii-output");
+//asciiBox.textContent = text;
+//}

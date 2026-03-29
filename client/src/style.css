@@ -16,10 +16,3 @@ body {
   gap: 10px;
   justify-content: center;
 }
-
-#ascii-output {
-  font-size: 4px;
-  line-height: 4px;
-  white-space: pre;
-  overflow-x: auto;
-}
