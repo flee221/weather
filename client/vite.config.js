@@ -8,6 +8,8 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      "/github": "http://localhost:3000",
+      "/ascii": "http://localhost:3000",
     },
   },
 });

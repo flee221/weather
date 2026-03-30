@@ -46,6 +46,9 @@ function initApp() {
   //asciiImage("http://localhost:3000/images/github.png");
 
   githubApi("flee221").then((result) => {
+    if (!result?.data?.avatar_url) {
+      return;
+    }
     //console.log(result.data.avatar_url);
     const ascii = asciiConvert({
       imageUrl: result.data.avatar_url,

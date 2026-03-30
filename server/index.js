@@ -9,8 +9,6 @@ const app = express();
 const port = 3000;
 const apiKey = process.env.API_KEY;
 app.use(cors());
-app.use(express.static(path.join(process.cwd(), "../client")));
-app.use(express.static(path.join(process.cwd(), "../client/public")));
 
 async function geocoding(placename) {
   const url = `http://api.openweathermap.org/geo/1.0/direct?q=${placename}&limit=1&appid=${apiKey}`;
@@ -69,3 +67,5 @@ app.get("/github", async (req, res) => {
     console.log(err);
   }
 });
+app.use(express.static(path.join(process.cwd(), "../client")));
+app.use(express.static(path.join(process.cwd(), "../client/public")));

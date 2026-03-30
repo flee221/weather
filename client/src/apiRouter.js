@@ -10,9 +10,7 @@ export async function weatherApi(placename) {
 
 export async function githubApi(username) {
   try {
-    const res = await fetch(
-      `http://localhost:3000/github?username=${encodeURIComponent(username)}`,
-    );
+    const res = await fetch(`/github?username=${encodeURIComponent(username)}`);
     const data = await res.json();
     return data;
   } catch (err) {
@@ -20,4 +18,11 @@ export async function githubApi(username) {
     return null;
   }
   //try catch block in the event of incorrect username
+}
+
+export async function asciiApi(url, width) {
+  const res = await fetch(
+    `/ascii?url=${encodeURIComponent(url)}&width=${width}`,
+  );
+  return await res.text();
 }

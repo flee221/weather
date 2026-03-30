@@ -1,4 +1,5 @@
 import "./asciiConvert.css";
+import { asciiApi } from "../../apiRouter.js";
 
 export function asciiConvert({ imageUrl, width }) {
   const container = document.createElement("div");
@@ -9,10 +10,7 @@ export function asciiConvert({ imageUrl, width }) {
 
   async function asciiImage(url) {
     try {
-      const res = await fetch(
-        `http://localhost:3000/ascii?url=${encodeURIComponent(url)}&width=${width}`,
-      );
-      const text = await res.text();
+      const text = await asciiApi(url, width);
       asciiBox.textContent = text;
     } catch (error) {
       console.log(error);
