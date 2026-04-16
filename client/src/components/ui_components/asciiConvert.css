@@ -1,6 +1,7 @@
-.ascii-output {
-  font-size: 3px;
-  line-height: 3px;
-  white-space: pre;
-  overflow-x: none;
+.asciiOutput {
+  font-size: 4px;
+  line-height: 4px;
+  color: rgb(243, 198, 115);
+  margin: 0px;
+  box-shadow: 0 0 5px 0.5px rgb(243, 198, 115);
 }

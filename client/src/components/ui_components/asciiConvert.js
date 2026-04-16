@@ -4,7 +4,7 @@ import { asciiApi } from "../../apiRouter.js";
 export function asciiConvert({ imageUrl, width }) {
   const container = document.createElement("div");
   const asciiBox = document.createElement("pre");
-  asciiBox.className = "ascii-output";
+  asciiBox.className = "asciiOutput";
 
   container.appendChild(asciiBox);
 

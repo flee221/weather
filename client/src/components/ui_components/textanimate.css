@@ -3,7 +3,26 @@
     transform: translateX(0%);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-25%);
+  }
+}
+
+@keyframes glow {
+  from {
+    text-shadow:
+      0 0 2px rgb(243, 198, 115),
+      0 0 3px rgb(243, 198, 115),
+      0 0 4px #f0b104,
+      0 0 5px #f0b104;
+  }
+
+  to {
+    text-shadow:
+      0 0 2px rgb(243, 198, 115),
+      0 0 3px rgb(243, 198, 115),
+      0 0 4px rgb(243, 198, 115),
+      0 0 5px rgb(243, 198, 115),
+      0 0 6px rgb(243, 198, 115);
   }
 }
 
@@ -11,14 +30,15 @@
   overflow: hidden;
   white-space: nowrap;
   width: 100%;
-  background-color: aliceblue;
 }
 
 .textContainer span {
   display: inline-block;
-  padding-left: 100%;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-family: "Courier New", Courier, monospace;
   font-size: xx-large;
-  color: #343b14;
+  font-weight: 600;
+  color: #ffd890;
   animation: animatedText 10s linear infinite; /* default speed if not overridden by JS */
+
+  margin: 10px;
 }
