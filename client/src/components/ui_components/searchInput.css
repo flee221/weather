@@ -1,9 +1,21 @@
 #search-container {
-  margin-top: 2rem;
-  margin-left: 1.2rem;
   display: flex;
+  background-color: black;
+  border: 1px solid rgb(243, 198, 115);
+  box-shadow: 0 0 8px rgb(243, 198, 115);
+}
+
+#search-input {
+  background-color: black;
+  color: rgb(243, 198, 115);
+  border: none;
+  padding: 8px;
+  outline: none;
+  flex: 1;
 }
 
 #search-button {
-  padding: 5px;
+  background-color: black;
+  border: none;
+  fill: rgb(243, 198, 115);
 }

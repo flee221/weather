@@ -11,35 +11,6 @@ const apiKey = process.env.API_KEY;
 const githubKey = process.env.GITHUB_KEY;
 app.use(cors());
 
-async function geocoding(placename) {
-  const url = `http://api.openweathermap.org/geo/1.0/direct?q=${placename}&limit=1&appid=${apiKey}`;
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    const { lat, lon } = data[0];
-    const weatherdata = await getWeatherData(lat, lon);
-    return weatherdata;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function getWeatherData(lat, lon) {
-  const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
-
-  //dailyForecast(data.current, data.daily);
-}
-
-app.get("/weather", async (req, res) => {
-  console.log(req.query);
-  const { placename } = req.query;
-  const data = await geocoding(placename);
-  res.send({ data: data });
-});
-
 app.listen(port, () => {
   console.log("server is running");
 });
@@ -130,6 +101,25 @@ app.get("/github/languages", async (req, res) => {
     });
 
     res.json({ data: total });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.get("/github/repo", async (req, res) => {
+  try {
+    const { username, reponame } = req.query;
+    const response = await fetch(
+      `https://api.github.com/repos/${username}/${reponame}`,
+      {
+        headers: {
+          Authorization: `Bearer ${githubKey}`,
+          Accept: "application/vnd.github+json",
+        },
+      },
+    );
+    const data = await response.json();
+    res.json({ data });
   } catch (err) {
     console.log(err);
   }

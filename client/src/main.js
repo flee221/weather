@@ -1,8 +1,8 @@
-import { initTitleBar } from "./components/titleBar.js";
 import { searchInput } from "./components/ui_components/searchInput.js";
 import { githubApi } from "./apiRouter.js";
 import { githubRepos } from "./apiRouter.js";
 import { githubLanguages } from "./apiRouter.js";
+import { githubRepo } from "./apiRouter.js";
 import { textanimate } from "./components/ui_components/textanimate.js";
 import { asciiConvert } from "./components/ui_components/asciiConvert.js";
 import { barChart } from "./components/ui_components/barChart.js";
@@ -10,22 +10,21 @@ import "./style.css";
 
 function initApp() {
   const app = document.getElementById("app");
-  const userName = "beachatel";
-  // Title Bar Configuration with props
-  const props = {
-    title: "title",
-    menuConfig: {
-      menuIcon: "\u2630",
-      menuStyle: "large",
-      menuItems: [
-        { text: "About", href: "about" },
-        { text: "Contact", href: "contact" },
-        { text: "Services", href: "services" },
-      ],
-    },
-  };
-  //const titleBar = initTitleBar(props);
+  const userName = "flee221";
 
+  const handleKeyInput = (event, inputElement) => {
+    if (event.key === "Enter") {
+      const query = inputElement.value.trim();
+      loadRepo(query, userName, repoInfo, repoLink);
+      inputElement.value = "";
+    }
+  };
+
+  const handleButtonClick = (event, inputElement) => {
+    const query = inputElement.value.trim();
+    loadRepo(query, userName, repoInfo, repoLink);
+    inputElement.value = "";
+  };
   const mainContainer = document.createElement("div");
   mainContainer.id = "main";
 
@@ -45,40 +44,43 @@ function initApp() {
 
   const gridText = document.createElement("div");
   gridText.id = "grid-text";
-  gridText.textContent = "TESTING GRID";
+  gridText.style.whiteSpace = "pre-line";
+  const repoInfo = document.createElement("div");
   const gridText2 = document.createElement("div");
   gridText2.id = "grid-text2";
-  gridText2.textContent = "TESTING GRID";
+  gridText2.textContent = "Link to repo:";
+  const repoLink = document.createElement("a");
+  repoLink.id = "repo-link";
 
+  const repoList = document.createElement("div");
+  repoList.id = "repo-list";
+
+  const repoTitle = document.createElement("div");
+  repoTitle.id = "repo-title";
+  repoTitle.textContent = "List of repos:";
   const info = document.createElement("div");
   info.id = "info";
+  info.style.whiteSpace = "pre-line";
 
   const search = searchInput({
-    placeholder: "Enter town or city...",
+    placeholder: "Enter repo name...",
     onInputKeyPress: handleKeyInput,
     onButtonClick: handleButtonClick,
   });
 
-  //contentDiv.appendChild(search);
-
-  //app.appendChild(titleBar);
   app.appendChild(textanimate("GITHUB DASHBOARD: " + userName, 50));
   app.appendChild(mainContainer);
   mainContainer.appendChild(userContainer);
+  gridText.appendChild(search);
+  gridText.appendChild(repoInfo);
+  gridText2.appendChild(repoLink);
   mainContainer.appendChild(gridText);
   mainContainer.appendChild(gridText2);
-
-  //const asciiBox = document.createElement("pre");
-  //asciiBox.id = "ascii-output";
-
-  //app.appendChild(asciiBox);
-  //asciiImage("http://localhost:3000/images/github.png");
 
   githubApi(userName).then((result) => {
     if (!result?.data?.avatar_url) {
       return;
     }
-    //console.log(result.data);
     const ascii = asciiConvert({
       imageUrl: result.data.avatar_url,
       width: 45,
@@ -95,13 +97,14 @@ function initApp() {
   textBox.appendChild(textItem2);
 
   githubRepos(userName).then((result) => {
-    info.textContent = JSON.stringify(result.data[0].name);
-    console.log(result.data);
+    repoList.textContent = "";
+    result.data.forEach((repo) => {
+      repoList.textContent += repo.name + "\n" + "\n";
+    });
+    loadRepo(result.data[0].name, userName, repoInfo, repoLink);
   });
 
   githubLanguages(userName).then((result) => {
-    console.log(result);
-    info.textContent = JSON.stringify(result);
     const stats = result.data;
     const xValues = Object.keys(stats);
     const rawValues = Object.values(stats);
@@ -114,29 +117,28 @@ function initApp() {
     mainContainer.appendChild(chartInfo.element);
   });
   mainContainer.appendChild(info);
+  info.appendChild(repoTitle);
+  info.appendChild(repoList);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   initApp();
 });
 
-const handleKeyInput = (event, inputElement) => {
-  if (event.key === "Enter") {
-    const query = inputElement.value.trim();
-    // console.log(query);
-    //weatherApi(query);
-    inputElement.value = "";
-  }
-};
-
-const handleButtonClick = (event, inputElement) => {
-  const query = inputElement.value.trim();
-  //console.log(query);
-  //geocoding(query);
-  //weatherApi(query);
-  inputElement.value = "";
-};
-
+function loadRepo(repoName, userName, repoInfo, repoLink) {
+  githubRepo(userName, repoName).then((result) => {
+    const repo = result.data;
+    console.log(result.data);
+    repoInfo.textContent = `Repo Name: ${repo.name}
+    Date Created: ${repo.created_at}
+    Main Language: ${repo.language} 
+    Last Updated: ${repo.updated_at}`;
+    repoLink.href = repo.html_url;
+    repoLink.textContent = repo.html_url;
+    repoLink.target = "_blank";
+    //opens link in new tab
+  });
+}
 //async function asciiImage(imageurl) {
 //const res = await fetch(
 //`http://localhost:3000/ascii?url=${encodeURIComponent(imageurl)}`,
