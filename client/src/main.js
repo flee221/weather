@@ -25,6 +25,10 @@ function initApp() {
     loadRepo(query, userName, repoInfo, repoLink);
     inputElement.value = "";
   };
+
+  //All event handlers instantiated^
+
+  //DOM elements
   const mainContainer = document.createElement("div");
   mainContainer.id = "main";
 
@@ -76,31 +80,39 @@ function initApp() {
   gridText2.appendChild(repoLink);
   mainContainer.appendChild(gridText);
   mainContainer.appendChild(gridText2);
+  //DOM elements ^
 
   githubApi(userName).then((result) => {
     if (!result?.data?.avatar_url) {
       return;
     }
+    //return nothing if profile picture doesn't exist
     const ascii = asciiConvert({
       imageUrl: result.data.avatar_url,
       width: 45,
     });
+    //send profile photo url to asciify
     userContainer.appendChild(ascii.element);
+    //display on dashboard
     userContainer.appendChild(textBox);
 
     textItem3.textContent = `USERNAME: ` + userName;
     textItem.textContent = `NAME: ${result.data.name || "//"}`;
     textItem2.textContent = `BIO: ${result.data.bio || "//"}`;
+    //object destructuring to split the returned object into
+    //a readable format
   });
   textBox.appendChild(textItem3);
   textBox.appendChild(textItem);
   textBox.appendChild(textItem2);
-
+  //display user infor to dashboard
   githubRepos(userName).then((result) => {
     repoList.textContent = "";
     result.data.forEach((repo) => {
       repoList.textContent += repo.name + "\n" + "\n";
     });
+    //\n adds breaks (new lines) between each item
+
     loadRepo(result.data[0].name, userName, repoInfo, repoLink);
   });
 
@@ -112,6 +124,7 @@ function initApp() {
     //a = current total, b = current Item
     const yValues = rawValues.map(
       (currentValue) => (currentValue / totalSum) * 100,
+      //map the values to change range -> better for bar chart display
     );
     const chartInfo = barChart(xValues, yValues);
     mainContainer.appendChild(chartInfo.element);
@@ -119,6 +132,7 @@ function initApp() {
   mainContainer.appendChild(info);
   info.appendChild(repoTitle);
   info.appendChild(repoList);
+  //display repo information to dashboard
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -139,13 +153,3 @@ function loadRepo(repoName, userName, repoInfo, repoLink) {
     //opens link in new tab
   });
 }
-//async function asciiImage(imageurl) {
-//const res = await fetch(
-//`http://localhost:3000/ascii?url=${encodeURIComponent(imageurl)}`,
-//);
-
-//const text = await res.text();
-
-//const asciiBox = document.getElementById("ascii-output");
-//asciiBox.textContent = text;
-//}
